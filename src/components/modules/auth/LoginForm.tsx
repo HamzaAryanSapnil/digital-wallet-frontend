@@ -33,10 +33,7 @@ export function LoginForm({
       console.error(err);
       toast.error("Invalid Credentials");
 
-      //   if (err.status === 401) {
-      //     toast.error("Your account is not verified");
-      //     navigate("/verify", { state: data.email });
-      //   }
+      
     }
   };
 
