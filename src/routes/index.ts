@@ -3,13 +3,14 @@ import DashboardLayout from "@/components/layout/Dashboard.Layout";
 import About from "@/pages/About/About";
 import Login from "@/pages/Auth/Login";
 import Register from "@/pages/Auth/Register";
-import TransactionHistory from "@/pages/Dashboard/User/Transaction.history";
 
 import Home from "@/pages/Home/Home";
 import { generateRoutes } from "@/utils/generateRoutes";
 
 import { createBrowserRouter } from "react-router";
 import { adminSidebarItems } from "./admin.sidebar";
+import { userSidebarItems } from "./user.sidebar.items";
+import { agentSidebarItems } from "./agentSidebarItems";
 
 export const router = createBrowserRouter([
   {
@@ -43,18 +44,16 @@ export const router = createBrowserRouter([
   {
     path: "/admin",
     Component: DashboardLayout,
-    children: [
-      ...generateRoutes(adminSidebarItems)
-    ],
+    children: [...generateRoutes(adminSidebarItems)],
+  },
+  {
+    path: "/agent",
+    Component: DashboardLayout,
+    children: [...generateRoutes(agentSidebarItems)],
   },
   {
     path: "/user",
     Component: DashboardLayout,
-    children: [
-        {
-          path: "transaction-history",
-          Component: TransactionHistory,
-        },
-    ],
+    children: [...generateRoutes(userSidebarItems)],
   },
 ]);

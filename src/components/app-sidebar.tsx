@@ -22,49 +22,53 @@ import {
 import { Link } from "react-router";
 import Logo from "@/assets/icons/Logo";
 import { NavClouds } from "./nav-cloud";
-import { adminSidebarItems } from "@/routes/admin.sidebar";
-
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
-    {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
-    },
-  ],
-  navClouds: adminSidebarItems,
-  navSecondary: [
-    {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
-    },
-  ],
-};
+import { getSidebarItems } from "@/utils/getSidebarItems";
+import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: userData } = useUserInfoQuery(undefined);
+
+  console.log("from app sidebar", userData?.data?.role)
+
+  const data = {
+    user: {
+      name: "shadcn",
+      email: "m@example.com",
+      avatar: "/avatars/shadcn.jpg",
+    },
+    navMain: [
+      {
+        title: "Team",
+        url: "#",
+        icon: IconUsers,
+      },
+    ],
+    navClouds: getSidebarItems(userData?.data?.role),
+    navSecondary: [
+      {
+        title: "Get Help",
+        url: "#",
+        icon: IconHelp,
+      },
+    ],
+    documents: [
+      {
+        name: "Data Library",
+        url: "#",
+        icon: IconDatabase,
+      },
+      {
+        name: "Reports",
+        url: "#",
+        icon: IconReport,
+      },
+      {
+        name: "Word Assistant",
+        url: "#",
+        icon: IconFileWord,
+      },
+    ],
+  };
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
