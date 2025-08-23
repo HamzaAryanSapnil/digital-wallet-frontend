@@ -12,14 +12,14 @@ import { cn } from "@/lib/utils";
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
 import type { ILogin } from "@/types";
 import { type SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 
 export function LoginForm({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-  //   const navigate = useNavigate();
+    const navigate = useNavigate();
   const form = useForm<ILogin>();
   const [login] = useLoginMutation();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -28,12 +28,13 @@ export function LoginForm({
     try {
       const res = await login(data).unwrap();
       console.log(res);
-      toast.success("User Logged-In Successfully");
+      if (res.success) {
+        toast.success("User Logged-In Successfully");
+        navigate("/")
+      }
     } catch (err) {
       console.error(err);
       toast.error("Invalid Credentials");
-
-      
     }
   };
 

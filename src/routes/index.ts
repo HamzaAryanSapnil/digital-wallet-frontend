@@ -1,8 +1,9 @@
 import App from "@/App";
+import DashboardLayout from "@/components/layout/Dashboard.Layout";
 import About from "@/pages/About/About";
 import Login from "@/pages/Auth/Login";
 import Register from "@/pages/Auth/Register";
-import Dashboard from "@/pages/Dashboard/Dashboard";
+
 import Home from "@/pages/Home/Home";
 
 import { createBrowserRouter } from "react-router";
@@ -37,13 +38,13 @@ export const router = createBrowserRouter([
   // },
 
   {
-    path: "/dashboard",
-    Component: Dashboard,
+    path: "/admin",
+    Component: DashboardLayout,
     children: [
-      //   {
-      //     path: "admin",
-      //     Component: AdminOverview,
-      //   },
+        {
+          path: "admin",
+          Component: AdminOverview,
+        },
     ],
   },
 ]);
