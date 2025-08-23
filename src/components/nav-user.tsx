@@ -1,9 +1,6 @@
 import {
-  IconCreditCard,
   IconDotsVertical,
   IconLogout,
-  IconNotification,
-  IconUserCircle,
 } from "@tabler/icons-react"
 
 import {
@@ -14,7 +11,6 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -26,6 +22,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api"
+import { useAppDispatch } from "@/redux/hook"
+import { useNavigate } from "react-router"
 
 export function NavUser({
   user,
@@ -37,6 +36,17 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+
+
+    const [logout] = useLogoutMutation();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate()
+
+   const handleLogout = async () => {
+     await logout(undefined);
+      dispatch(authApi.util.resetApiState());
+      navigate("/")
+    };
 
   return (
     <SidebarMenu>
@@ -81,22 +91,7 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <IconUserCircle />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconCreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconNotification />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
               <IconLogout />
               Log out
             </DropdownMenuItem>
