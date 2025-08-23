@@ -57,7 +57,7 @@ export const router = createBrowserRouter([
     path: "/agent",
     Component: withAuth(DashboardLayout, role.AGENT as TRole),
     children: [
-      { index: true, loader: () => redirect("/agent/all-commissions") },
+      { index: true, loader: () => redirect("/agent/overview") },
       ...generateRoutes(agentSidebarItems),
     ],
   },
@@ -65,7 +65,7 @@ export const router = createBrowserRouter([
     path: "/user",
     Component: withAuth(DashboardLayout, role.USER as TRole),
     children: [
-      { index: true, loader: () => redirect("/user/transaction-history") },
+      { index: true, loader: () => redirect("/user/overview") },
       ...generateRoutes(userSidebarItems),
     ],
   },
