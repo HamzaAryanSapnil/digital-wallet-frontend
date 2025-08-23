@@ -1,9 +1,12 @@
 import AllTransactions from "@/pages/Dashboard/Admin/AllTransactions";
 import AllUsers from "@/pages/Dashboard/Admin/AllUsers";
-import Analytics from "@/pages/Dashboard/Admin/Analytics";
+// import Analytics from "@/pages/Dashboard/Admin/Analytics";
 import type { ISidebarItem } from "@/types";
 import { IconTransactionBitcoin } from "@tabler/icons-react";
 import { LayoutDashboard, User } from "lucide-react";
+import { lazy } from "react";
+
+const Analytics = lazy(() => import("@/pages/Dashboard/Admin/Analytics"));
 
 export const adminSidebarItems: ISidebarItem[] = [
   {

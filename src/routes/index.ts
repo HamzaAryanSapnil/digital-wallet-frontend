@@ -1,3 +1,4 @@
+import { withAuth } from './../utils/withAuth';
 import App from "@/App";
 import DashboardLayout from "@/components/layout/Dashboard.Layout";
 import About from "@/pages/About/About";
@@ -7,10 +8,13 @@ import Register from "@/pages/Auth/Register";
 import Home from "@/pages/Home/Home";
 import { generateRoutes } from "@/utils/generateRoutes";
 
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, redirect } from "react-router";
 import { adminSidebarItems } from "./admin.sidebar";
 import { userSidebarItems } from "./user.sidebar.items";
 import { agentSidebarItems } from "./agentSidebarItems";
+import Unauthorized from "@/pages/Unauthorized";
+import { role } from '@/constants/role';
+import type { TRole } from '@/types';
 
 export const router = createBrowserRouter([
   {
@@ -36,24 +40,33 @@ export const router = createBrowserRouter([
     Component: Register,
     path: "/register",
   },
-  // {
-  //   Component: Verify,
-  //   path: "/verify",
-  // },
+  {
+    Component: Unauthorized,
+    path: "/unauthorized",
+  },
 
   {
     path: "/admin",
-    Component: DashboardLayout,
-    children: [...generateRoutes(adminSidebarItems)],
+    Component: withAuth(DashboardLayout, role.ADMIN as TRole),
+    children: [
+      { index: true, loader: () => redirect("/admin/analytics") },
+      ...generateRoutes(adminSidebarItems),
+    ],
   },
   {
     path: "/agent",
-    Component: DashboardLayout,
-    children: [...generateRoutes(agentSidebarItems)],
+    Component: withAuth(DashboardLayout, role.AGENT as TRole),
+    children: [
+      { index: true, loader: () => redirect("/agent/all-commissions") },
+      ...generateRoutes(agentSidebarItems),
+    ],
   },
   {
     path: "/user",
-    Component: DashboardLayout,
-    children: [...generateRoutes(userSidebarItems)],
+    Component: withAuth(DashboardLayout, role.USER as TRole),
+    children: [
+      { index: true, loader: () => redirect("/user/transaction-history") },
+      ...generateRoutes(userSidebarItems),
+    ],
   },
 ]);
