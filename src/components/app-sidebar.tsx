@@ -1,13 +1,5 @@
 import * as React from "react";
-import {
-  IconDatabase,
-  IconFileWord,
-  IconHelp,
-  IconReport,
-  IconUsers,
-} from "@tabler/icons-react";
-
-import { NavDocuments } from "@/components/nav-documents";
+import { IconHelp } from "@tabler/icons-react";
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
@@ -28,44 +20,21 @@ import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: userData } = useUserInfoQuery(undefined);
 
-  console.log("from app sidebar", userData?.data?.role)
+  console.log("from app sidebar", userData?.data?.role);
 
   const data = {
     user: {
-      name: "shadcn",
-      email: "m@example.com",
+      name: userData ? userData?.data?.name : "User",
+      email: userData ? userData?.data?.email : "email@example.com",
       avatar: "/avatars/shadcn.jpg",
     },
-    navMain: [
-      {
-        title: "Team",
-        url: "#",
-        icon: IconUsers,
-      },
-    ],
+    navMain: [],
     navClouds: getSidebarItems(userData?.data?.role),
     navSecondary: [
       {
         title: "Get Help",
-        url: "#",
+        url: "https://github.com/HamzaAryanSapnil/Digital-Wallet-Frontend",
         icon: IconHelp,
-      },
-    ],
-    documents: [
-      {
-        name: "Data Library",
-        url: "#",
-        icon: IconDatabase,
-      },
-      {
-        name: "Reports",
-        url: "#",
-        icon: IconReport,
-      },
-      {
-        name: "Word Assistant",
-        url: "#",
-        icon: IconFileWord,
       },
     ],
   };
@@ -83,7 +52,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavClouds items={data.navClouds} />
-        <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
