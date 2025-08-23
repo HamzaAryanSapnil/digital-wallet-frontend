@@ -72,9 +72,9 @@ export interface ISidebarItem {
   url?: string;
   icon?: any; // Using 'any' to allow both Tabler and Lucide icons
   isActive?: boolean;
-  items?: {
+  items: {
     title: string;
     url: string;
-    component?: ComponentType
+    component: ComponentType,
   }[];
 }

@@ -1,4 +1,4 @@
-import type { Icon } from "@tabler/icons-react";
+
 import type {} from "lucide-react"
 import {
   SidebarGroup,
@@ -8,22 +8,9 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Link } from "react-router";
+import type { ISidebarItem } from "@/types";
 
-export function NavClouds({
-  items,
-}: {
-  items: {
-    title: string;
-    url: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    icon?: Icon | any;
-    isActive?: boolean;
-    items?: {
-      title: string;
-      url: string;
-    }[];
-  }[];
-}) {
+export function NavClouds({ items }: { items: ISidebarItem[] }) {
   return (
     <SidebarGroup>
       <SidebarGroupContent>
@@ -35,7 +22,6 @@ export function NavClouds({
                 <span>{item.title}</span>
               </SidebarMenuButton>
 
-  
               {item.items && (
                 <SidebarMenu className="pl-6">
                   {item.items.map((subItem) => (

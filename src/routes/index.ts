@@ -3,13 +3,13 @@ import DashboardLayout from "@/components/layout/Dashboard.Layout";
 import About from "@/pages/About/About";
 import Login from "@/pages/Auth/Login";
 import Register from "@/pages/Auth/Register";
-import AllUsers from "@/pages/Dashboard/Admin/AllUsers";
-import Analytics from "@/pages/Dashboard/Admin/Analytics";
 import TransactionHistory from "@/pages/Dashboard/User/Transaction.history";
 
 import Home from "@/pages/Home/Home";
+import { generateRoutes } from "@/utils/generateRoutes";
 
 import { createBrowserRouter } from "react-router";
+import { adminSidebarItems } from "./admin.sidebar";
 
 export const router = createBrowserRouter([
   {
@@ -44,14 +44,7 @@ export const router = createBrowserRouter([
     path: "/admin",
     Component: DashboardLayout,
     children: [
-        {
-          path: "analytics",
-          Component: Analytics,
-        },
-        {
-          path: "all-users",
-          Component: AllUsers,
-        },
+      ...generateRoutes(adminSidebarItems)
     ],
   },
   {
