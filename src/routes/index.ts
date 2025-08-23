@@ -3,6 +3,9 @@ import DashboardLayout from "@/components/layout/Dashboard.Layout";
 import About from "@/pages/About/About";
 import Login from "@/pages/Auth/Login";
 import Register from "@/pages/Auth/Register";
+import AllUsers from "@/pages/Dashboard/Admin/AllUsers";
+import Analytics from "@/pages/Dashboard/Admin/Analytics";
+import TransactionHistory from "@/pages/Dashboard/User/Transaction.history";
 
 import Home from "@/pages/Home/Home";
 
@@ -42,8 +45,22 @@ export const router = createBrowserRouter([
     Component: DashboardLayout,
     children: [
         {
-          path: "admin",
-          Component: AdminOverview,
+          path: "analytics",
+          Component: Analytics,
+        },
+        {
+          path: "all-users",
+          Component: AllUsers,
+        },
+    ],
+  },
+  {
+    path: "/user",
+    Component: DashboardLayout,
+    children: [
+        {
+          path: "transaction-history",
+          Component: TransactionHistory,
         },
     ],
   },
