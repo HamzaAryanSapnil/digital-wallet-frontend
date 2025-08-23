@@ -1,3 +1,5 @@
+import type { ComponentType } from "react"
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type { IErrorResponse} from "./errorResponse"
 export type {IRegister, ILogin} from "./auth.type"
@@ -63,3 +65,16 @@ export interface Auth {
   providerId: string;
 }
 
+
+
+export interface ISidebarItem {
+  title: string;
+  url?: string;
+  icon?: any; // Using 'any' to allow both Tabler and Lucide icons
+  isActive?: boolean;
+  items?: {
+    title: string;
+    url: string;
+    component?: ComponentType
+  }[];
+}
