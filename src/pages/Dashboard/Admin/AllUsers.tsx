@@ -5,11 +5,26 @@ import type { UserRow } from "@/types";
 import { DataTable } from "@/components/reusableTable";
 import { FilterBar, type FilterOption } from "@/components/reusableFilter";
 
+import { UserActions } from "@/components/modules/admin/Modals/UserAction";
+
+
+
+
 const columns: ColumnDef<UserRow>[] = [
   { header: "Name", accessorKey: "name" },
   { header: "Email", accessorKey: "email" },
   { header: "Role", accessorKey: "role" },
   { header: "Phone", accessorKey: "phone" },
+  {
+    header: "Actions",
+    id: "actions",
+    cell: ({ row }) => {
+      const user = row.original; 
+      return (
+        <UserActions user={user}/>
+      );
+    },
+  },
 ];
 
 const userFilters: FilterOption[] = [
@@ -28,7 +43,7 @@ const userFilters: FilterOption[] = [
 
 export default function AllUsers() {
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(10);
   const [filters, setFilters] = useState<Record<string, string>>({});
 
   const { data, isLoading } = useGetAllUsersQuery({

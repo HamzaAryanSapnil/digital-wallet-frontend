@@ -1,7 +1,7 @@
 import type { Meta } from ".";
 
 export type UserRow = {
-  id: string; // normalized id (from _id.$oid or _id)
+  _id: string; // normalized id (from _id.$oid or _id)
   name: string;
   email: string;
   phone?: string;
