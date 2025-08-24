@@ -1,43 +1,49 @@
-import type { ComponentType } from "react"
+import type { ComponentType } from "react";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export type { IErrorResponse} from "./errorResponse"
-export type {IRegister, ILogin} from "./auth.type"
+export type { IErrorResponse } from "./errorResponse";
+export type { IRegister, ILogin } from "./auth.type";
+export type { UserRow } from "./userTypes";
 
+export interface Meta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPage: number;
+}
 
-export interface IResponse<T>{
-    success: boolean,
-    statusCode: number,
-    message: string,
-    data: T
+export interface IResponse<T> {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  meta: Meta;
+  data: T;
 }
 
 export interface ILoginResponse {
-  accessToken: string
-  refreshToken: string
-  user: User
+  accessToken: string;
+  refreshToken: string;
+  user: User;
 }
 
 export interface User {
-  _id: string
-  name: string
-  email: string
-  role: string
-  phone: string
-  status: string
-  isVerified: boolean
-  auths: Auth[]
-  isApproved: boolean
-  createdAt: string
-  updatedAt: string
+  _id: string;
+  name: string;
+  email: string;
+  role: string;
+  phone: string;
+  status: string;
+  isVerified: boolean;
+  auths: Auth[];
+  isApproved: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Auth {
-  provider: string
-  providerId: string
+  provider: string;
+  providerId: string;
 }
-
-
 
 export interface IRegisterResponse {
   success: boolean;
@@ -65,8 +71,6 @@ export interface Auth {
   providerId: string;
 }
 
-
-
 export interface ISidebarItem {
   title: string;
   url?: string;
@@ -75,9 +79,8 @@ export interface ISidebarItem {
   items: {
     title: string;
     url: string;
-    component: ComponentType,
+    component: ComponentType;
   }[];
 }
-
 
 export type TRole = "ADMIN" | "USER" | "AGENT";

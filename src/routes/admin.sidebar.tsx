@@ -1,5 +1,9 @@
+
+import AllAgents from "@/pages/Dashboard/Admin/AllAgents";
 import AllTransactions from "@/pages/Dashboard/Admin/AllTransactions";
 import AllUsers from "@/pages/Dashboard/Admin/AllUsers";
+import AllWallets from "@/pages/Dashboard/Admin/AllWallets";
+import Profile from "@/pages/Profile/Profile";
 // import Analytics from "@/pages/Dashboard/Admin/Analytics";
 import type { ISidebarItem } from "@/types";
 import { IconTransactionBitcoin } from "@tabler/icons-react";
@@ -16,9 +20,14 @@ export const adminSidebarItems: ISidebarItem[] = [
     url: "#",
     items: [
       {
+        title: "Admin Profile",
+        url: "/admin/me",
+        component: Profile,
+      },
+      {
         title: "Analytics",
         url: "/admin/analytics",
-        component: Analytics
+        component: Analytics,
       },
     ],
   },
@@ -31,7 +40,12 @@ export const adminSidebarItems: ISidebarItem[] = [
       {
         title: "Manage Users",
         url: "/admin/all-users",
-        component: AllUsers
+        component: AllUsers,
+      },
+      {
+        title: "Manage Agents",
+        url: "/admin/all-agents",
+        component: AllAgents,
       },
     ],
   },
@@ -44,7 +58,20 @@ export const adminSidebarItems: ISidebarItem[] = [
       {
         title: "All Transactions",
         url: "/admin/all-transactions",
-        component: AllTransactions
+        component: AllTransactions,
+      },
+    ],
+  },
+  {
+    title: "Wallets Management",
+    icon: IconTransactionBitcoin,
+    isActive: true,
+    url: "#",
+    items: [
+      {
+        title: "All Wallets",
+        url: "/admin/all-wallets",
+        component: AllWallets,
       },
     ],
   },
