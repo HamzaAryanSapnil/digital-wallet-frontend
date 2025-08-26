@@ -51,6 +51,22 @@ export const router = createBrowserRouter([
     children: [
       { index: true, loader: () => redirect("/admin/analytics") },
       ...generateRoutes(adminSidebarItems),
+      // {
+      //   path: "analytics",
+      //   Component: adminSidebarItems[0].items![1].component!,
+      // },
+      // {
+      //   path: "all-users",
+      //   Component: adminSidebarItems[1].items![0].component!,
+      // },
+      // {
+      //   path: "all-agents",
+      //   Component: adminSidebarItems[1].items![1].component!,
+      // },
+      // {
+      //   path: "all-transactions",
+      //   Component: adminSidebarItems[2].items![0].component!,
+      // },
     ],
   },
   {

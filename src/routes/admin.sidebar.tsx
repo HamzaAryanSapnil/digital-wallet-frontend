@@ -10,8 +10,8 @@ import { IconTransactionBitcoin } from "@tabler/icons-react";
 import { LayoutDashboard, User } from "lucide-react";
 import { lazy } from "react";
 
+console.log("Analytics mounted");
 const Analytics = lazy(() => import("@/pages/Dashboard/Admin/Analytics"));
-
 export const adminSidebarItems: ISidebarItem[] = [
   {
     title: "Dashboard",

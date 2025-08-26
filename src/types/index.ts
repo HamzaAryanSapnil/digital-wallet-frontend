@@ -4,6 +4,9 @@ import type { ComponentType } from "react";
 export type { IErrorResponse } from "./errorResponse";
 export type { IRegister, ILogin } from "./auth.type";
 export type { UserRow } from "./userTypes";
+export type { ITransaction, TransResData } from "./transaction.types";
+export type { IWallet, ResWalletData } from "./wallet.types";
+
 
 export interface Meta {
   page: number;
@@ -16,7 +19,13 @@ export interface IResponse<T> {
   success: boolean;
   statusCode: number;
   message: string;
-  meta: Meta;
+  meta?: Meta;
+  data: T;
+}
+export interface IWithoutMetaResponse<T> {
+  success: boolean;
+  statusCode: number;
+  message: string;
   data: T;
 }
 

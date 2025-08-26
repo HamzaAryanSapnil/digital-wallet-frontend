@@ -1,5 +1,4 @@
-
-import type {} from "lucide-react"
+import type {} from "lucide-react";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -25,13 +24,13 @@ export function NavClouds({ items }: { items: ISidebarItem[] }) {
               {item.items && (
                 <SidebarMenu className="pl-6">
                   {item.items.map((subItem) => (
-                    <SidebarMenuItem key={subItem.title}>
-                      <Link to={subItem.url}>
+                    <Link key={subItem.title} to={subItem.url}>
+                      <SidebarMenuItem >
                         <SidebarMenuButton tooltip={subItem.title}>
                           <span>{subItem.title}</span>
                         </SidebarMenuButton>
-                      </Link>
-                    </SidebarMenuItem>
+                      </SidebarMenuItem>
+                    </Link>
                   ))}
                 </SidebarMenu>
               )}

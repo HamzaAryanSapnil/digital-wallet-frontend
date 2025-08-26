@@ -21,5 +21,5 @@ export interface Auth {
 
 export interface ResData{
     data: UserRow[];
-    meta: Meta;
+    meta?: Meta;
 }
