@@ -4,9 +4,13 @@ import type { ComponentType } from "react";
 export type { IErrorResponse } from "./errorResponse";
 export type { IRegister, ILogin } from "./auth.type";
 export type { UserRow } from "./userTypes";
-export type { ITransaction, TransResData } from "./transaction.types";
+export type {
+  ITransaction,
+  TransResData,
+  ICashIn,
+} from "./transaction.types";
 export type { IWallet, ResWalletData } from "./wallet.types";
-
+export type { ICashInResponse, ICashOutResponse } from "./agent.types";
 
 export interface Meta {
   page: number;
