@@ -7,7 +7,7 @@ export type { UserRow } from "./userTypes";
 export type {
   ITransaction,
   TransResData,
-  ICashIn,
+  ICashPayload
 } from "./transaction.types";
 export type { IWallet, ResWalletData } from "./wallet.types";
 export type { ICashInResponse, ICashOutResponse } from "./agent.types";

@@ -18,7 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { ICashIn } from "@/types";
+import type { ICashPayload } from "@/types";
 import { IconMoneybag } from "@tabler/icons-react";
 import { useAgentCashInMutation } from "@/redux/features/Agent/agent.api";
 import { toast } from "sonner";
@@ -26,32 +26,30 @@ import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import type { AxiosError } from "axios";
 
 export default function AgentCashIn() {
-  const [cashIn] = useAgentCashInMutation()
-  const form = useForm<ICashIn>();
-  const onSubmit: SubmitHandler<ICashIn> = async (data) => {
+  const [cashIn] = useAgentCashInMutation();
+  const form = useForm<ICashPayload>();
+  const onSubmit: SubmitHandler<ICashPayload> = async (data) => {
     try {
       const res = await cashIn(data).unwrap();
       if (res?.success) {
-        toast.success( res?.message ?? "User Logged-In Successfully");
+        toast.success(res?.message ?? "User Logged-In Successfully");
       }
       form.reset();
     } catch (err) {
       console.error(err);
-        const error = err as FetchBaseQueryError | AxiosError<any>;
-         if ((error as AxiosError).isAxiosError) {
-           const axiosErr = error as AxiosError<any>;
-           toast.error(
-             axiosErr.response?.data?.message ?? "Axios error occurred"
-           );
-         } else if ("status" in (error as FetchBaseQueryError)) {
-           const rtkErr = error as FetchBaseQueryError;
-           toast.error(
-             (rtkErr.data as any)?.message ??
-               "Something went wrong during cash-in!"
-           );
-         } else {
-           toast.error("Unexpected error");
-         }
+      const error = err as FetchBaseQueryError | AxiosError<any>;
+      if ((error as AxiosError).isAxiosError) {
+        const axiosErr = error as AxiosError<any>;
+        toast.error(axiosErr.response?.data?.message ?? "Axios error occurred");
+      } else if ("status" in (error as FetchBaseQueryError)) {
+        const rtkErr = error as FetchBaseQueryError;
+        toast.error(
+          (rtkErr.data as any)?.message ??
+            "Something went wrong during cash-in!"
+        );
+      } else {
+        toast.error("Unexpected error");
+      }
       // toast.error(err?.data?.message ??  "Something went wrong during cash-out!");
     }
   };
@@ -65,7 +63,7 @@ export default function AgentCashIn() {
               To Cash In, Give user phone number and amount
             </CardDescription>
           </CardHeader>
-          <CardContent className="min-w-2xl">
+          <CardContent className=" md:min-w-96 lg:min-w-2xl ">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}

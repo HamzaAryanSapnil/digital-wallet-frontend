@@ -37,7 +37,7 @@ export interface TransResData{
 }
 
 
-export interface ICashIn {
+export interface ICashPayload {
   userPhone: string;
   amount: number;
 }
