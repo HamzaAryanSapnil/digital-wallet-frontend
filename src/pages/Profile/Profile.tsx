@@ -27,7 +27,7 @@ export default function Profile() {
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6">
       {/* Top Profile Card */}
-      <Card className="w-full">
+      <Card className="lg:w-3xl xl:w-5xl">
         <CardHeader className="flex justify-between items-center">
           <CardTitle>Profile</CardTitle>
           <EditProfileModal user={user} currentRole={user.role} />

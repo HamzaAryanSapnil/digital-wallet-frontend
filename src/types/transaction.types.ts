@@ -36,3 +36,8 @@ export interface TransResData{
     meta?: Meta;
 }
 
+
+export interface ICashPayload {
+  userPhone: string;
+  amount: number;
+}
