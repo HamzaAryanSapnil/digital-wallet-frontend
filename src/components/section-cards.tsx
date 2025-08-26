@@ -1,6 +1,7 @@
-import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
-
-import { Badge } from "@/components/ui/badge"
+// components/section-cards.tsx
+import * as React from "react";
+import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardAction,
@@ -8,95 +9,176 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
+import type { UserRow, IWallet, ITransaction } from "@/types";
 
-export function SectionCards() {
+type Delta = {
+  value?: number;
+  positive?: boolean;
+};
+
+interface SectionCardsProps {
+  users?: UserRow[];
+  wallets?: IWallet[]; 
+  transactions?: ITransaction[]; 
+  deltas?: {
+    users?: Delta;
+    agents?: Delta;
+    transactions?: Delta;
+    volume?: Delta;
+  };
+}
+
+const fmtNum = (n: number) =>
+  n >= 1000 ? n.toLocaleString("en-US") : String(n);
+
+const fmtCurrency = (n: number) =>
+  `৳${n.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
+
+const countAgents = (users?: UserRow[]) =>
+  (users || []).filter((u) => u.role === "AGENT").length;
+
+const sumVolume = (transactions?: ITransaction[]) =>
+  (transactions || []).reduce((acc, t) => acc + (t?.amount || 0), 0);
+
+export function SectionCards({
+  users,
+  wallets,
+  transactions,
+  deltas,
+}: SectionCardsProps) {
+  const totalUsers = users?.length ?? 0;
+  const totalAgents = countAgents(users);
+  const totalTransactions = transactions?.length ?? 0;
+  const totalVolume = sumVolume(transactions);
+
   return (
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+      {/* Total Users */}
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
+          <CardDescription>Total Users</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+            {fmtNum(totalUsers)}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
+            <Badge variant="outline" className="flex items-center gap-2">
+              {deltas?.users?.positive ? (
+                <IconTrendingUp className="size-4" />
+              ) : (
+                <IconTrendingDown className="size-4" />
+              )}
+              {typeof deltas?.users?.value === "number"
+                ? `${deltas!.users!.value}%`
+                : "—"}
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month <IconTrendingUp className="size-4" />
+            {totalUsers > 0 ? "Active users count" : "No users found"}
           </div>
           <div className="text-muted-foreground">
-            Visitors for the last 6 months
+            {wallets
+              ? `${wallets.length} wallets in system`
+              : "Wallet data not provided"}
           </div>
         </CardFooter>
       </Card>
+
+      {/* Agents */}
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>New Customers</CardDescription>
+          <CardDescription>Agents</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
+            {fmtNum(totalAgents)}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
-              <IconTrendingDown />
-              -20%
+            <Badge variant="outline" className="flex items-center gap-2">
+              {deltas?.agents?.positive ? (
+                <IconTrendingUp className="size-4" />
+              ) : (
+                <IconTrendingDown className="size-4" />
+              )}
+              {typeof deltas?.agents?.value === "number"
+                ? `${deltas!.agents!.value}%`
+                : "—"}
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period <IconTrendingDown className="size-4" />
+            {totalAgents > 0 ? "Active agents" : "No agents"}
           </div>
           <div className="text-muted-foreground">
-            Acquisition needs attention
+            {totalAgents > 0
+              ? "Monitoring agent activity"
+              : "Invite agents to onboard"}
           </div>
         </CardFooter>
       </Card>
+
+      {/* Transaction Count */}
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
+          <CardDescription>Transaction Count</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
+            {fmtNum(totalTransactions)}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
+            <Badge variant="outline" className="flex items-center gap-2">
+              {deltas?.transactions?.positive ? (
+                <IconTrendingUp className="size-4" />
+              ) : (
+                <IconTrendingDown className="size-4" />
+              )}
+              {typeof deltas?.transactions?.value === "number"
+                ? `${deltas!.transactions!.value}%`
+                : "—"}
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention <IconTrendingUp className="size-4" />
+            {totalTransactions > 0
+              ? "Volume of operations"
+              : "No transactions yet"}
           </div>
-          <div className="text-muted-foreground">Engagement exceed targets</div>
+          <div className="text-muted-foreground">
+            {totalTransactions > 0 ? `${transactions?.length} total` : "..."}
+          </div>
         </CardFooter>
       </Card>
+
+      {/* Volume */}
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
+          <CardDescription>Volume</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
+            {totalVolume ? fmtCurrency(totalVolume) : "—"}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +4.5%
+            <Badge variant="outline" className="flex items-center gap-2">
+              {deltas?.volume?.positive ? (
+                <IconTrendingUp className="size-4" />
+              ) : (
+                <IconTrendingDown className="size-4" />
+              )}
+              {typeof deltas?.volume?.value === "number"
+                ? `${deltas!.volume!.value}%`
+                : "—"}
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance increase <IconTrendingUp className="size-4" />
+            {totalVolume ? "Total transaction volume" : "No volume data"}
           </div>
-          <div className="text-muted-foreground">Meets growth projections</div>
+          <div className="text-muted-foreground">
+            {totalTransactions > 0 ? `${totalTransactions} transactions` : ""}
+          </div>
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }

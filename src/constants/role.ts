@@ -9,3 +9,13 @@ export const role: Role = {
   USER: "USER",
   AGENT: "AGENT",
 };
+
+
+interface Status {
+  ACTIVE: string;
+  BLOCKED: string;}
+
+export const status: Status = {
+  ACTIVE: "ACTIVE",
+  BLOCKED: "BLOCKED",
+};

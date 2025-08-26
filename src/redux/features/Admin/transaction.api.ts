@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "@/redux/baseApi";
-import type { IResponse, ITransaction, TransResData,  } from "@/types";
+import type { IResponse, ITransaction, TransResData } from "@/types";
 
 export const transactionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -18,7 +18,15 @@ export const transactionApi = baseApi.injectEndpoints({
       },
       providesTags: ["TRANSACTION"],
     }),
+    getTransactionsSummery: builder.query({
+      query: (params) => ({
+        url: "/admin/transactions-summery",
+        method: "GET",
+        params,
+      }),
+    }),
   }),
 });
 
-export const { useGetAllTransactionsQuery } = transactionApi;
+export const { useGetAllTransactionsQuery, useGetTransactionsSummeryQuery } =
+  transactionApi;

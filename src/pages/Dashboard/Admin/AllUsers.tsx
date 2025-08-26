@@ -1,4 +1,5 @@
 import Loader from "@/components/Loader";
+import { UserViewModal } from "@/components/modules/admin/Modals/UserViewModal";
 import { FilterBar, type FilterOption } from "@/components/reusableFilter";
 import { DataTable } from "@/components/reusableTable";
 import { role } from "@/constants/role";
@@ -37,6 +38,8 @@ export default function AllUsers() {
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [blockUser] = useBlockUserMutation();
   const [unblockUser] = useUnblockUserMutation();
+   const [viewOpen, setViewOpen] = useState(false);
+   const [selectedUser, setSelectedUser] = useState<UserRow | null>(null);
 
   const { data, isLoading } = useGetAllUsersQuery({
     page,
@@ -50,11 +53,14 @@ export default function AllUsers() {
     blockUser,
     unblockUser,
     enabledActions: ["view", "block", "unblock"],
+    onView: (u) => {
+      setSelectedUser(u);
+      setViewOpen(true);
+    }
   });
 
   return (
     <div className="space-y-4 p-4 sm:p-6">
-
       <FilterBar
         filters={userFilters}
         limit={limit}
@@ -69,10 +75,12 @@ export default function AllUsers() {
           setPage(1);
         }}
       />
-          
-          <div className="my-10 flex justify-center items-center" >
-            <h1 className=" text-3xl md:text-4xl lg:text-5xl font-bold" >All Users</h1>
-          </div>
+
+      <div className="my-10 flex justify-center items-center">
+        <h1 className=" text-3xl md:text-4xl lg:text-5xl font-bold">
+          All Users
+        </h1>
+      </div>
 
       <div className="overflow-x-auto">
         <DataTable<UserRow>
@@ -87,6 +95,17 @@ export default function AllUsers() {
           onSearch={() => {}}
         />
       </div>
+
+      {selectedUser && (
+        <UserViewModal
+          userId={selectedUser._id}
+          open={viewOpen}
+          onOpenChange={(open) => {
+            setViewOpen(open);
+            if (!open) setSelectedUser(null); // cleanup when modal closes
+          }}
+        />
+      )}
     </div>
   );
 }

@@ -66,6 +66,9 @@
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
+  --color-chart-grid: rgba(15, 23, 42, 0.06); /* light subtle lines */
+  --color-chart-axis: rgba(15, 23, 42, 0.18); /* axis slightly darker */
+  --color-chart-tick: rgba(15, 23, 42, 0.6);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.141 0.005 285.823);
   --sidebar-primary: oklch(0.7973 0.1339 211.45);
@@ -100,6 +103,9 @@
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
+  --color-chart-grid: rgba(255, 255, 255, 0.04);
+  --color-chart-axis: rgba(255, 255, 255, 0.14);
+  --color-chart-tick: rgba(255, 255, 255, 0.72);
   --sidebar: oklch(0.21 0.006 285.885);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.546 0.245 262.881);
@@ -117,4 +123,40 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.chart-visual {
+  /* lighten background slightly so grid is visible */
+  background-image: linear-gradient(transparent 0, transparent 100%);
+}
+
+
+.recharts-cartesian-axis-tick text,
+.recharts-cartesian-axis .recharts-text {
+  fill: var(--color-chart-tick) !important;
+}
+
+.recharts-wrapper {
+  display: block; /* avoid inline-block whitespace */
+  height: 100% !important; /* ensure wrapper fills parent */
+}
+
+.recharts-wrapper > svg {
+  display: block; /* remove svg extra descender whitespace */
+  height: 100% !important;
+}
+
+.recharts-surface {
+  height: 100% !important;
+}
+
+/* ensure axis ticks use our color */
+.recharts-cartesian-axis-tick text,
+.recharts-cartesian-axis .recharts-text {
+  fill: var(--color-chart-tick) !important;
+}
+
+/* optional: reduce default font-family line-height issues */
+.recharts-cartesian-axis-tick text {
+  dominant-baseline: central;
 }

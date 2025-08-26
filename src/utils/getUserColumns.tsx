@@ -16,10 +16,17 @@ export const getUserColumns = (opts: {
   unblockUser?: ReturnType<typeof useUnblockUserMutation>[0];
   suspendAgent?: ReturnType<typeof useSuspendAgentMutation>[0];
   approveAgent?: ReturnType<typeof useApproveAgentMutation>[0];
+  onView?: (u: UserRow) => void;
   enabledActions: ActionType[];
 }): ColumnDef<UserRow>[] => {
-  const { blockUser, unblockUser, suspendAgent, approveAgent, enabledActions } =
-    opts;
+  const {
+    blockUser,
+    unblockUser,
+    suspendAgent,
+    approveAgent,
+    enabledActions,
+    onView,
+  } = opts;
   return [
     { header: "Name", accessorKey: "name" },
     { header: "Email", accessorKey: "email" },
@@ -37,7 +44,12 @@ export const getUserColumns = (opts: {
             confirmTitle: "View user?",
             confirmDescription: "This will open user details.",
             confirmText: "Confirm View",
-            onConfirm: (u: UserRow) => console.log("View", u._id),
+            confirm: false,
+            onConfirm: (u: UserRow) => {
+              if (onView) {
+                onView(u);
+              }
+            },
           },
           block: {
             key: "block",
