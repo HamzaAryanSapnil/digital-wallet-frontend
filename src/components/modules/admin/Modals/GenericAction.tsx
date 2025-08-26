@@ -26,6 +26,7 @@ export type ActionConfig<T> = {
   confirmTitle: string;
   confirmDescription: string;
   confirmText: string;
+  confirm?: boolean;
   onConfirm: (item: T) => void | Promise<void>;
 };
 
@@ -59,7 +60,18 @@ export function ActionMenu<T>({ item, actions }: ActionMenuProps<T>) {
           {actions.map((action) => (
             <DropdownMenuItem
               key={action.key}
-              onClick={() => setDialog({ open: true, action })}
+              onClick={() => {
+                if (action.confirm === false) {
+                  try {
+                    action.onConfirm(item);
+                  } catch (err) {
+                    console.error(err);
+                  }
+                  return;
+                }
+
+                setDialog({ open: true, action });
+              }}
             >
               {action.label}
             </DropdownMenuItem>
