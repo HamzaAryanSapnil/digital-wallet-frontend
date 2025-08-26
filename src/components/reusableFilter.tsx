@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +13,9 @@ export interface FilterOption {
   key: string;
   label: string;
   type: "text" | "select";
-  options?: { value: string; label: string }[]; // for select
+  options?: { value: string; label: string }[];
+  enabled?: boolean;
+  placeholder?: string;
 }
 
 interface FilterBarProps {
@@ -21,6 +23,10 @@ interface FilterBarProps {
   onFilterChange: (values: Record<string, string>) => void;
   limit: number;
   onLimitChange: (limit: number) => void;
+  initialValues?: Record<string, string>;
+  debounceMs?: number; // default 400
+  visibleKeys?: string[]; // optional override: only render these keys (if provided)
+  showReset?: boolean; // default true
 }
 
 export function FilterBar({
@@ -28,36 +34,67 @@ export function FilterBar({
   onFilterChange,
   limit,
   onLimitChange,
+  initialValues = {},
+  debounceMs = 0,
+  visibleKeys,
+  showReset = true,
 }: FilterBarProps) {
-  const [values, setValues] = useState<Record<string, string>>({});
+  const renderFilters = useMemo(() => {
+    return filters.filter(
+      (f) =>
+        f.enabled !== false && (!visibleKeys || visibleKeys.includes(f.key))
+    );
+  }, [filters, visibleKeys]);
 
-  const handleChange = (key: string, value: string) => {
-    const newValues = { ...values, [key]: value };
-    setValues(newValues);
-    onFilterChange(newValues);
+  const [values, setValues] = useState<Record<string, string>>(() => ({
+    ...initialValues,
+  }));
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      onFilterChange(values);
+    }, debounceMs); 
+
+    return () => clearTimeout(handler);
+  }, [values, debounceMs]); 
+
+  const handleChangeImmediate = (key: string, value: string) => {
+    setValues((prev) => {
+      const next = { ...prev, [key]: value };
+      return next;
+    });
+  };
+
+  const clearAll = () => {
+    setValues({});
+    onFilterChange({});
+    onLimitChange(10);
   };
 
   return (
     <div className="flex flex-wrap gap-4 items-center justify-between mb-4">
       <div className="flex flex-wrap gap-4">
-        {filters.map((filter) => {
+        {renderFilters.map((filter) => {
           if (filter.type === "text") {
             return (
               <Input
                 key={filter.key}
-                placeholder={filter.label}
-                value={values[filter.key] || ""}
-                onChange={(e) => handleChange(filter.key, e.target.value)}
+                placeholder={filter.placeholder ?? filter.label}
+                value={values[filter.key] ?? ""}
+                onChange={(e) =>
+                  handleChangeImmediate(filter.key, e.target.value)
+                }
                 className="w-60 sm:w-72"
               />
             );
           }
+
           if (filter.type === "select" && filter.options) {
             return (
               <Select
                 key={filter.key}
-                onValueChange={(val) => handleChange(filter.key, val)}
-                value={values[filter.key] || ""}
+                onValueChange={(val) => handleChangeImmediate(filter.key, val)}
+                value={values[filter.key] ?? ""}
               >
                 <SelectTrigger className="w-40 sm:w-48">
                   <SelectValue placeholder={filter.label} />
@@ -76,12 +113,12 @@ export function FilterBar({
         })}
       </div>
 
-      {/* Rows per page control */}
+      {/* Rows per page control + Reset */}
       <div className="flex items-center gap-2">
         <span className="text-sm">Rows per page:</span>
         <Select
           onValueChange={(val) => onLimitChange(Number(val))}
-          value={limit.toString()}
+          value={String(limit)}
         >
           <SelectTrigger className="w-24">
             <SelectValue placeholder="Limit" />
@@ -94,17 +131,18 @@ export function FilterBar({
             <SelectItem value="50">50</SelectItem>
           </SelectContent>
         </Select>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => {
-            setValues({});
-            onFilterChange({});
-            onLimitChange(10);
-          }}
-        >
-          Reset
-        </Button>
+
+        {showReset && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              clearAll();
+            }}
+          >
+            Reset
+          </Button>
+        )}
       </div>
     </div>
   );

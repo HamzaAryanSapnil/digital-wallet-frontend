@@ -1,9 +1,13 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { Suspense } from "react";
 import { Outlet } from "react-router";
+import Loader from "../Loader";
 
+console.log("Render DashboardLayout");
 export default function DashboardLayout() {
+  console.count("Dashboard Layout Rendered");
   return (
     <SidebarProvider
       style={
@@ -16,7 +20,9 @@ export default function DashboardLayout() {
       <AppSidebar variant="inset" />
       <SidebarInset>
         <SiteHeader />
-        <Outlet />
+        <Suspense fallback={<Loader />}>
+          <Outlet />
+        </Suspense>
       </SidebarInset>
     </SidebarProvider>
   );

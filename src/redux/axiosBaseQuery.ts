@@ -16,6 +16,7 @@ const axiosBaseQuery =
     unknown
   > =>
   async ({ url, method, data, params, headers }) => {
+    console.log("AXIOS CALL:", url, params);
     try {
       const result = await axiosInstance({
         url: url,

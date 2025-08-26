@@ -92,14 +92,17 @@ export default function Navbar() {
                   {navigationLinks.map((link, index) => (
                     <>
                       {link.role === "PUBLIC" && (
-                        <NavigationMenuItem key={index} className="w-full">
+                        <NavigationMenuItem key={index + 20} className="w-full">
                           <NavigationMenuLink asChild className="py-1.5">
                             <Link to={link.href}>{link.label} </Link>
                           </NavigationMenuLink>
                         </NavigationMenuItem>
                       )}
                       {link.role === data?.data?.role && (
-                        <NavigationMenuItem key={index} className="w-full">
+                        <NavigationMenuItem
+                          key={index + 113}
+                          className="w-full"
+                        >
                           <NavigationMenuLink asChild className="py-1.5">
                             <Link to={link.href}>{link.label} </Link>
                           </NavigationMenuLink>
@@ -122,14 +125,14 @@ export default function Navbar() {
                 {navigationLinks.map((link, index) => (
                   <>
                     {link.role === "PUBLIC" && (
-                      <NavigationMenuItem key={index} className="w-full">
+                      <NavigationMenuItem key={index + 32} className="w-full">
                         <NavigationMenuLink asChild className="py-1.5">
                           <Link to={link.href}>{link.label} </Link>
                         </NavigationMenuLink>
                       </NavigationMenuItem>
                     )}
                     {link.role === data?.data?.role && (
-                      <NavigationMenuItem key={index} className="w-full">
+                      <NavigationMenuItem key={index + 63} className="w-full">
                         <NavigationMenuLink asChild className="py-1.5">
                           <Link to={link.href}>{link.label} </Link>
                         </NavigationMenuLink>
