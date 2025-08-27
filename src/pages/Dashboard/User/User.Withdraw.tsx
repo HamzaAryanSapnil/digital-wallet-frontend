@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -17,22 +15,26 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import type {  ICashPayload } from "@/types";
-import { IconMoneybag } from "@tabler/icons-react";
-import {  useAgentCashOutMutation } from "@/redux/features/Agent/agent.api";
-import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { useWithdrawMutation } from "@/redux/features/User/user.api";
+import type { IWithdrawMoney } from "@/types";
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { IconMoneybag } from "@tabler/icons-react";
 import type { AxiosError } from "axios";
 
-export default function AgentCashOut() {
-  const [cashOut] = useAgentCashOutMutation();
-  const form = useForm<ICashPayload>();
-  const onSubmit: SubmitHandler<ICashPayload> = async (data) => {
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
+
+export default function UserWithDrawMoney() {
+  const [withdraw] = useWithdrawMutation();
+  const form = useForm<IWithdrawMoney>();
+  const onSubmit: SubmitHandler<IWithdrawMoney> = async (data) => {
+    console.log(data);
     try {
-      const res = await cashOut(data).unwrap();
+      const res = await withdraw(data).unwrap();
       if (res?.success) {
-        toast.success(res?.message ?? "User Cash-Out Successfully");
+        toast.success(res?.message ?? "User Withdrawal Successful");
       }
       form.reset();
     } catch (err) {
@@ -45,12 +47,11 @@ export default function AgentCashOut() {
         const rtkErr = error as FetchBaseQueryError;
         toast.error(
           (rtkErr.data as any)?.message ??
-            "Something went wrong during cash-in!"
+            "Something went wrong during withdraw!"
         );
       } else {
         toast.error("Unexpected error");
       }
-      // toast.error(err?.data?.message ??  "Something went wrong during cash-out!");
     }
   };
   return (
@@ -58,9 +59,9 @@ export default function AgentCashOut() {
       <div className={cn("flex flex-col gap-6")}>
         <Card>
           <CardHeader className="text-center">
-            <CardTitle className="text-3xl">Cash Out</CardTitle>
+            <CardTitle className="text-3xl">Withdraw Money</CardTitle>
             <CardDescription>
-              To Cash Out, Give user phone number and amount
+              To Withdraw Money, Give agent phone number and amount
             </CardDescription>
           </CardHeader>
           <CardContent className=" md:min-w-96 lg:min-w-2xl ">
@@ -71,10 +72,10 @@ export default function AgentCashOut() {
               >
                 <FormField
                   control={form.control}
-                  name="userPhone"
+                  name="agentNumber"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>User Phone Number</FormLabel>
+                      <FormLabel>Agent Phone Number</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="013xxxxxxxx"
@@ -105,8 +106,8 @@ export default function AgentCashOut() {
                   )}
                 />
 
-                <Button variant={"ghost"} type="submit" className="w-full">
-                  Cash Out <IconMoneybag className="ml-2" />
+                <Button variant={"ghost"} type="submit" className="w-full ">
+                  Withdraw Money <IconMoneybag className="ml-2" />
                 </Button>
               </form>
             </Form>

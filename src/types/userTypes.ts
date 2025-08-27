@@ -23,3 +23,12 @@ export interface ResData{
     data: UserRow[];
     meta?: Meta;
 }
+
+export interface ISendMoney {
+  receiverPhone: string,
+  amount: number
+}
+export interface IWithdrawMoney {
+  amount: number;
+  agentNumber: string;
+}
