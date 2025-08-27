@@ -32,6 +32,7 @@ export const getUserColumns = (opts: {
     { header: "Email", accessorKey: "email" },
     { header: "Role", accessorKey: "role" },
     { header: "Phone", accessorKey: "phone" },
+    { header: "Status", accessorKey: "status" },
     {
       header: "Actions",
       id: "actions",

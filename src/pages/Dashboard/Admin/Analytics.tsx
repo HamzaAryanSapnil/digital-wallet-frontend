@@ -12,10 +12,10 @@ import { useState } from "react";
 
 export default function Analytics() {
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(500);
+  const [limit, setLimit] = useState(5000);
   const { data, isLoading: userLoading } = useGetAllUsersQuery({
     page,
-    limit: 10,
+    limit
   });
   const { data: walletsData, isLoading: walletLoading } = useGetAllWalletsQuery(
     {
@@ -32,6 +32,7 @@ export default function Analytics() {
   const columns = getUserColumns({
     enabledActions: ["view"],
   });
+
 
   if (userLoading || walletLoading || transactionLoading) return <Loader />;
   return (
