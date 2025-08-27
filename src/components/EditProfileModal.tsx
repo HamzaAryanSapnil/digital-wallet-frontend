@@ -172,7 +172,7 @@ export default function EditProfileModal({ user, currentRole }: EditProfileModal
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button type="submit" form="edit-profile-form" disabled={isLoading}>
+          <Button  type="submit" form="edit-profile-form" disabled={isLoading}>
             {isLoading ? "Saving..." : "Save changes"}
           </Button>
         </DialogFooter>

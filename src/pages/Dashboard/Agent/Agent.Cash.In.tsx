@@ -32,7 +32,7 @@ export default function AgentCashIn() {
     try {
       const res = await cashIn(data).unwrap();
       if (res?.success) {
-        toast.success(res?.message ?? "User Logged-In Successfully");
+        toast.success(res?.message ?? "User Cash-In Successfully");
       }
       form.reset();
     } catch (err) {
@@ -105,7 +105,7 @@ export default function AgentCashIn() {
                   )}
                 />
 
-                <Button type="submit" className="w-full">
+                <Button variant={"ghost"} type="submit" className="w-full ">
                   Cash In <IconMoneybag className="ml-2" />
                 </Button>
               </form>

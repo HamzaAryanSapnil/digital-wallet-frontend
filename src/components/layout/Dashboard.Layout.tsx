@@ -4,6 +4,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Suspense } from "react";
 import { Outlet } from "react-router";
 import Loader from "../Loader";
+import JoyRideController from "../modules/JoyRideController";
 
 console.log("Render DashboardLayout");
 export default function DashboardLayout() {
@@ -18,6 +19,7 @@ export default function DashboardLayout() {
       }
     >
       <AppSidebar variant="inset" />
+      <JoyRideController />
       <SidebarInset>
         <SiteHeader />
         <Suspense fallback={<Loader />}>

@@ -3,7 +3,7 @@ import type { ComponentType } from "react";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type { IErrorResponse } from "./errorResponse";
 export type { IRegister, ILogin } from "./auth.type";
-export type { UserRow } from "./userTypes";
+export type { UserRow, ISendMoney, IWithdrawMoney } from "./userTypes";
 export type {
   ITransaction,
   TransResData,

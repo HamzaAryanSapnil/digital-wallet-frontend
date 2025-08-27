@@ -199,113 +199,111 @@ export function DashboardTimeseriesChart({
           </div>
         ) : (
           <ChartContainer config={chartConfig} className="w-full">
-     
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart
-                  data={scaledChartData}
-                  margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
-                >
-                  <defs>
-                    <linearGradient id="fillTrans" x1="0" y1="0" x2="0" y2="1">
-                      <stop
-                        offset="5%"
-                        stopColor="var(--color-chart-1)"
-                        stopOpacity={0.9}
-                      />
-                      <stop
-                        offset="95%"
-                        stopColor="var(--color-chart-1)"
-                        stopOpacity={0.15}
-                      />
-                    </linearGradient>
-                    <linearGradient id="fillVol" x1="0" y1="0" x2="0" y2="1">
-                      <stop
-                        offset="5%"
-                        stopColor="var(--color-chart-2)"
-                        stopOpacity={0.9}
-                      />
-                      <stop
-                        offset="95%"
-                        stopColor="var(--color-chart-2)"
-                        stopOpacity={0.15}
-                      />
-                    </linearGradient>
-                  </defs>
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart
+                data={scaledChartData}
+                margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
+              >
+                <defs>
+                  <linearGradient id="fillTrans" x1="0" y1="0" x2="0" y2="1">
+                    <stop
+                      offset="5%"
+                      stopColor="var(--color-chart-1)"
+                      stopOpacity={0.9}
+                    />
+                    <stop
+                      offset="95%"
+                      stopColor="var(--color-chart-1)"
+                      stopOpacity={0.15}
+                    />
+                  </linearGradient>
+                  <linearGradient id="fillVol" x1="0" y1="0" x2="0" y2="1">
+                    <stop
+                      offset="5%"
+                      stopColor="var(--color-chart-2)"
+                      stopOpacity={0.9}
+                    />
+                    <stop
+                      offset="95%"
+                      stopColor="var(--color-chart-2)"
+                      stopOpacity={0.15}
+                    />
+                  </linearGradient>
+                </defs>
 
-                  <CartesianGrid
-                    stroke="rgba(0,0,0,0.06)"
-                    strokeDasharray="3 3"
-                    vertical={true}
-                    horizontal={false}
-                  />
+                <CartesianGrid
+                  stroke="rgba(0,0,0,0.06)"
+                  strokeDasharray="3 3"
+                  vertical={true}
+                  horizontal={false}
+                />
 
-                  <XAxis
-                    dataKey="date"
-                    tickLine={false}
-                    axisLine={{ stroke: "rgba(0,0,0,0.12)", strokeWidth: 1 }}
-                    tickMargin={8}
-                    minTickGap={12}
-                    tick={{
-                      fill: "var(--muted-foreground, #666)",
-                      fontSize: 12,
-                    }}
-                    tickFormatter={(value) => {
-                      try {
-                        const d = new Date(value + "T00:00:00");
+                <XAxis
+                  dataKey="date"
+                  tickLine={false}
+                  axisLine={{ stroke: "rgba(0,0,0,0.12)", strokeWidth: 1 }}
+                  tickMargin={8}
+                  minTickGap={12}
+                  tick={{
+                    fill: "var(--muted-foreground, #666)",
+                    fontSize: 12,
+                  }}
+                  tickFormatter={(value) => {
+                    try {
+                      const d = new Date(value + "T00:00:00");
+                      return d.toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                      });
+                    } catch {
+                      return value;
+                    }
+                  }}
+                />
+
+                <ChartTooltip
+                  cursor={{
+                    stroke: "rgba(0,0,0,0.12)",
+                    strokeDasharray: "3 3",
+                  }}
+                  content={
+                    <ChartTooltipContent
+                      labelFormatter={(value) => {
+                        const d = new Date(String(value) + "T00:00:00");
                         return d.toLocaleDateString("en-US", {
                           month: "short",
                           day: "numeric",
+                          year: "numeric",
                         });
-                      } catch {
-                        return value;
-                      }
-                    }}
-                  />
+                      }}
+                      indicator="dot"
+                    />
+                  }
+                />
 
-                  <ChartTooltip
-                    cursor={{
-                      stroke: "rgba(0,0,0,0.12)",
-                      strokeDasharray: "3 3",
-                    }}
-                    content={
-                      <ChartTooltipContent
-                        labelFormatter={(value) => {
-                          const d = new Date(String(value) + "T00:00:00");
-                          return d.toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          });
-                        }}
-                        indicator="dot"
-                      />
-                    }
-                  />
+                <Area
+                  dataKey="transactions"
+                  type="monotone"
+                  fill="url(#fillTrans)"
+                  stroke="var(--color-chart-1)"
+                  strokeWidth={2.2}
+                  name="Transactions"
+                  dot={{ r: 4, strokeWidth: 0, fill: "var(--color-chart-1)" }}
+                  activeDot={{ r: 6, fill: "var(--color-chart-1)" }}
+                />
 
-                  <Area
-                    dataKey="transactions"
-                    type="monotone"
-                    fill="url(#fillTrans)"
-                    stroke="var(--color-chart-1)"
-                    strokeWidth={2.2}
-                    name="Transactions"
-                    dot={{ r: 4, strokeWidth: 0, fill: "var(--color-chart-1)" }}
-                    activeDot={{ r: 6, fill: "var(--color-chart-1)" }}
-                  />
-
-                  <Area
-                    dataKey="scaledVolume"
-                    type="monotone"
-                    fill="url(#fillVol)"
-                    stroke="var(--color-chart-2)"
-                    strokeWidth={2.2}
-                    name="Volume"
-                    dot={{ r: 4, strokeWidth: 0, fill: "var(--color-chart-2)" }}
-                    activeDot={{ r: 6, fill: "var(--color-chart-2)" }}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-         
+                <Area
+                  dataKey="scaledVolume"
+                  type="monotone"
+                  fill="url(#fillVol)"
+                  stroke="var(--color-chart-2)"
+                  strokeWidth={2.2}
+                  name="Volume"
+                  dot={{ r: 4, strokeWidth: 0, fill: "var(--color-chart-2)" }}
+                  activeDot={{ r: 6, fill: "var(--color-chart-2)" }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           </ChartContainer>
         )}
       </CardContent>

@@ -28,9 +28,8 @@ const navigationLinks = [
   { href: "/", label: "Home", role: "PUBLIC" },
   { href: "/about", label: "About", role: "PUBLIC" },
   { href: "/features", label: "Features", role: "PUBLIC" },
-  { href: "/pricing ", label: "Pricing", role: "PUBLIC" },
-  { href: "/contact ", label: "Contact", role: "PUBLIC" },
-  { href: "/FAQ", label: "FAQ", role: "PUBLIC" },
+  { href: "/contact", label: "Contact", role: "PUBLIC" },
+  { href: "/faq", label: "FAQ", role: "PUBLIC" },
   { href: "/admin", label: "Dashboard", role: role.ADMIN },
   { href: "/agent", label: "Dashboard", role: role.AGENT },
   { href: "/user", label: "Dashboard", role: role.USER },
@@ -48,7 +47,7 @@ export default function Navbar() {
 
   return (
     <header className="border-b">
-      <div className="container mx-auto px-4 flex h-16 items-center justify-between gap-4">
+      <div className="container mx-auto px-4 flex h-16 items-center justify-between gap-4 ">
         {/* Left side */}
         <div className="flex items-center gap-2">
           {/* Mobile menu trigger */}
