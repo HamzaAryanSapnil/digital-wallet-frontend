@@ -15,7 +15,6 @@ import { role } from "@/constants/role";
 import Loader from "@/components/Loader";
 
 
-console.count("Render AllAgents");
 const userFilters: FilterOption[] = [
   { key: "searchTerm", label: "Search by name/email", type: "text", enabled: true },
   {
@@ -33,7 +32,7 @@ const userFilters: FilterOption[] = [
 ];
 
 export default function AllAgents() {
-  console.count("Render AllAgents");
+
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [filters, setFilters] = useState<Record<string, string>>({});
