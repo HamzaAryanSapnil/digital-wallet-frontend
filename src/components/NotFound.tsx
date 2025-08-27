@@ -14,7 +14,7 @@ export default function NotFound() {
       <div className="flex gap-3">
         <button
           onClick={() => navigate(-1)}
-          className="px-4 py-2 rounded-md border bg-background hover:bg-gray-50"
+          className="px-4 py-2 rounded-md border bg-background hover:bg-gray-50 dark:hover:text-black"
         >
           Go Back
         </button>

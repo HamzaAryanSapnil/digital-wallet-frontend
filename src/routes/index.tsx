@@ -104,6 +104,5 @@ export const router = createBrowserRouter([
       { path: "*", Component: NotFound },
     ],
   },
-
   { path: "*", Component: NotFound },
 ]);
