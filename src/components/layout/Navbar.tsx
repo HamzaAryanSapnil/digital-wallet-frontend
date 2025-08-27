@@ -1,3 +1,5 @@
+// src/components/navbar.tsx  (update)
+import React from "react";
 import Logo from "@/assets/icons/Logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,8 +23,8 @@ import {
 
 import { useAppDispatch } from "@/redux/hook";
 import { role } from "@/constants/role";
-
-// Navigation links array to be used in both desktop and mobile menus
+import { startTour } from "@/redux/joyrideSlice";
+import { useNavigate } from "react-router";
 
 const navigationLinks = [
   { href: "/", label: "Home", role: "PUBLIC" },
@@ -30,20 +32,42 @@ const navigationLinks = [
   { href: "/features", label: "Features", role: "PUBLIC" },
   { href: "/pricing ", label: "Pricing", role: "PUBLIC" },
   { href: "/contact ", label: "Contact", role: "PUBLIC" },
-  { href: "/FAQ", label: "FAQ", role: "PUBLIC" },
   { href: "/admin", label: "Dashboard", role: role.ADMIN },
   { href: "/agent", label: "Dashboard", role: role.AGENT },
   { href: "/user", label: "Dashboard", role: role.USER },
 ];
 
+const JOYRIDE_SHOWN_KEY = "joyride_shown_v1";
+const shouldShowJoyrideOnce = () => !localStorage.getItem(JOYRIDE_SHOWN_KEY);
+const markJoyrideShown = () => localStorage.setItem(JOYRIDE_SHOWN_KEY, "1");
+
 export default function Navbar() {
   const { data } = useUserInfoQuery(undefined);
   const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     await logout(undefined);
     dispatch(authApi.util.resetApiState());
+  };
+
+  const handleDashboardClick = (
+    e: React.MouseEvent,
+    href: string | undefined
+  ) => {
+    e.preventDefault();
+
+    if (shouldShowJoyrideOnce()) {
+      dispatch(startTour("home"));
+
+      markJoyrideShown();
+      localStorage.removeItem("joyride_shown_v1");
+      return;
+    }
+
+    // Otherwise just navigate normally
+    if (href) navigate(href);
   };
 
   return (
@@ -90,60 +114,79 @@ export default function Navbar() {
               <NavigationMenu className="max-w-none *:w-full">
                 <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
                   {navigationLinks.map((link, index) => (
-                    <>
+                    <React.Fragment key={index}>
                       {link.role === "PUBLIC" && (
-                        <NavigationMenuItem key={index + 20} className="w-full">
+                        <NavigationMenuItem className="w-full">
                           <NavigationMenuLink asChild className="py-1.5">
                             <Link to={link.href}>{link.label} </Link>
                           </NavigationMenuLink>
                         </NavigationMenuItem>
                       )}
+
                       {link.role === data?.data?.role && (
-                        <NavigationMenuItem
-                          key={index + 113}
-                          className="w-full"
-                        >
+                        // Dashboard link for matched role (mobile)
+                        <NavigationMenuItem className="w-full">
                           <NavigationMenuLink asChild className="py-1.5">
-                            <Link to={link.href}>{link.label} </Link>
+                            <Link
+                              to={link.href}
+                              data-joy="dashboard-start"
+                              onClick={(e) =>
+                                handleDashboardClick(e, link.href)
+                              }
+                            >
+                              {link.label}
+                            </Link>
                           </NavigationMenuLink>
                         </NavigationMenuItem>
                       )}
-                    </>
+                    </React.Fragment>
                   ))}
                 </NavigationMenuList>
               </NavigationMenu>
             </PopoverContent>
           </Popover>
+
           {/* Main nav */}
           <div className="flex items-center gap-6">
             <a href="#" className="text-primary hover:text-primary/90">
               <Logo />
             </a>
-            {/* Navigation menu */}
+
+            {/* Desktop menu */}
             <NavigationMenu className="max-md:hidden">
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => (
-                  <>
+                  <React.Fragment key={index}>
                     {link.role === "PUBLIC" && (
-                      <NavigationMenuItem key={index + 32} className="w-full">
+                      <NavigationMenuItem className="w-full">
                         <NavigationMenuLink asChild className="py-1.5">
                           <Link to={link.href}>{link.label} </Link>
                         </NavigationMenuLink>
                       </NavigationMenuItem>
                     )}
+
                     {link.role === data?.data?.role && (
-                      <NavigationMenuItem key={index + 63} className="w-full">
+                      // Dashboard link for matched role (desktop)
+                      <NavigationMenuItem className="w-full">
                         <NavigationMenuLink asChild className="py-1.5">
-                          <Link to={link.href}>{link.label} </Link>
+                          <Link
+                            to={link.href}
+                            // add joyride attribute to the dashboard button
+                            data-joy="dashboard-start"
+                            onClick={(e) => handleDashboardClick(e, link.href)}
+                          >
+                            {link.label}
+                          </Link>
                         </NavigationMenuLink>
                       </NavigationMenuItem>
                     )}
-                  </>
+                  </React.Fragment>
                 ))}
               </NavigationMenuList>
             </NavigationMenu>
           </div>
         </div>
+
         {/* Right side */}
         <div className="flex items-center gap-2">
           <ModeToggle />

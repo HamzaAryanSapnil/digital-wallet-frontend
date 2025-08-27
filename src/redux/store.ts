@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { baseApi } from "./baseApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
-
+import joyRideReducer from './joyrideSlice'
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
+    joyRide: joyRideReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),

@@ -9,6 +9,15 @@ import {
 import { Link } from "react-router";
 import type { ISidebarItem } from "@/types";
 
+const JOYRIDE_TARGETS: Record<string, string> = {
+  "/user/overview": "joy-user-overview",
+  "/user/me": "joy-user-profile",
+  "/user/send-money": "joy-send-money",
+  "/user/withdraw": "joy-withdraw",
+  "/user/transaction-history": "joy-transaction-history",
+  "/dashboard/overview": "joy-dashboard-overview",
+};
+
 export function NavClouds({ items }: { items: ISidebarItem[] }) {
   return (
     <SidebarGroup>
@@ -23,15 +32,18 @@ export function NavClouds({ items }: { items: ISidebarItem[] }) {
 
               {item.items && (
                 <SidebarMenu className="pl-6">
-                  {item.items.map((subItem) => (
-                    <Link key={subItem.title} to={subItem.url}>
-                      <SidebarMenuItem >
-                        <SidebarMenuButton tooltip={subItem.title}>
-                          <span>{subItem.title}</span>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    </Link>
-                  ))}
+                  {item.items.map((subItem) => {
+                    const joyTarget = JOYRIDE_TARGETS[subItem.url];
+                    return (
+                      <Link key={subItem.title} to={subItem.url}>
+                        <SidebarMenuItem data-joy={joyTarget ?? undefined}>
+                          <SidebarMenuButton tooltip={subItem.title}>
+                            <span>{subItem.title}</span>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      </Link>
+                    );
+                  })}
                 </SidebarMenu>
               )}
             </SidebarMenuItem>
