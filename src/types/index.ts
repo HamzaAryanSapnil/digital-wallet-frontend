@@ -97,3 +97,36 @@ export interface ISidebarItem {
 }
 
 export type TRole = "ADMIN" | "USER" | "AGENT";
+
+
+
+
+
+// Dashboard Overview
+export interface TimeseriesPoint {
+  date: string;
+  transactions: number;
+  volume: number;
+}
+export interface TopCounterparty {
+  userId: string | null;
+  name?: string | null;
+  email?: string | null;
+  totalAmount: number;
+  txCount: number;
+}
+export interface OverviewResult {
+  walletBalance: number | null;
+  totals: {
+    cashIn: number;
+    cashOut: number;
+    commission: number;
+    fee: number;
+    txCount: number;
+    pendingCount: number;
+  };
+  recent: any[]; // you can type transaction shape later
+  timeseries: TimeseriesPoint[];
+  topCounterparties: TopCounterparty[];
+}
+

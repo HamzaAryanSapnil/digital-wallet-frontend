@@ -19,8 +19,8 @@ type Delta = {
 
 interface SectionCardsProps {
   users?: UserRow[];
-  wallets?: IWallet[]; 
-  transactions?: ITransaction[]; 
+  wallets?: IWallet[];
+  transactions?: ITransaction[];
   deltas?: {
     users?: Delta;
     agents?: Delta;

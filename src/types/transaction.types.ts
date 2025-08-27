@@ -15,6 +15,8 @@ export interface ITransaction {
 }
 
 
+
+
 export interface TransactionType {
   ADD_MONEY : "ADD_MONEY"
   WITHDRAW : "WITHDRAW"
