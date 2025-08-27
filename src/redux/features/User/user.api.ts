@@ -10,7 +10,7 @@ export const userApi = baseApi.injectEndpoints({
         method: "POST",
         data: payload,
       }),
-      invalidatesTags: ["TRANSACTION", "WALLET"],
+      invalidatesTags: ["TRANSACTION", "WALLET", "DASHBOARD"],
     }),
     withdraw: builder.mutation({
       query: (payload) => ({
@@ -18,7 +18,7 @@ export const userApi = baseApi.injectEndpoints({
         method: "POST",
         data: payload,
       }),
-      invalidatesTags: ["TRANSACTION", "WALLET", "AGENT_COMMISSION", ],
+      invalidatesTags: ["TRANSACTION", "WALLET", "AGENT_COMMISSION", "DASHBOARD" ],
     }),
     updateUser: builder.mutation({
       query: ({ userId, payload }) => ({

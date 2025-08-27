@@ -10,7 +10,7 @@ export const agentApi = baseApi.injectEndpoints({
         method: "POST",
         data: cashInInfo,
       }),
-      invalidatesTags: ["WALLET"],
+      invalidatesTags: ["WALLET", "DASHBOARD", "TRANSACTION"],
     }),
     agentCashOut: builder.mutation<IResponse<ICashOutResponse>, ICashPayload>({
       query: (cashOutInfo) => ({
@@ -19,7 +19,7 @@ export const agentApi = baseApi.injectEndpoints({
         data: cashOutInfo,
       }),
 
-      invalidatesTags: ["WALLET", "TRANSACTION", "AGENT_COMMISSION", ],
+      invalidatesTags: ["WALLET", "TRANSACTION", "AGENT_COMMISSION", "DASHBOARD" ],
     }),
     getAgentCommission: builder.query({
       query: (params) => ({
