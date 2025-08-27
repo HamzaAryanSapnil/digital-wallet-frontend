@@ -12,11 +12,8 @@ export default function RouteErrorPage() {
   const error = useRouteError();
   const navigate = useNavigate();
 
-  // helper: safely extract useful debug info from many shapes
   const getDetail = (err: unknown) => {
-    // react-router Response-like (isRouteErrorResponse detected separately)
     if (isRouteErrorResponse(err)) {
-      // err.data may be anything
       return (err.data ?? {
         status: err.status,
         statusText: err.statusText,
@@ -25,18 +22,14 @@ export default function RouteErrorPage() {
 
     const anyErr = err as any;
 
-    // axios error (common shape): anyErr.isAxiosError === true
     if (anyErr && anyErr.isAxiosError) {
-      // prefer response.data if available, else message
       return anyErr.response?.data ?? anyErr.message ?? anyErr;
     }
 
-    // generic Error instance
     if (err instanceof Error) {
       return { message: err.message, name: err.name };
     }
 
-    // catch-all: try to stringify
     try {
       return JSON.parse(JSON.stringify(err));
     } catch {
