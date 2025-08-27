@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // src/components/JoyRideController.tsx
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import ReactJoyride, { type CallBackProps } from "react-joyride";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { startTour, endTour } from "@/redux/joyrideSlice";
