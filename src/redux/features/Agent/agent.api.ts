@@ -18,9 +18,19 @@ export const agentApi = baseApi.injectEndpoints({
         method: "POST",
         data: cashOutInfo,
       }),
+
       invalidatesTags: ["WALLET"],
+    }),
+    getAgentCommission: builder.query({
+      query: (params) => ({
+        url: `/transactions/commissions`,
+        method: "GET",
+        params,
+      }),
+
+      providesTags: ["AGENT_COMMISSION"],
     }),
   }),
 });
 
-export const { useAgentCashInMutation, useAgentCashOutMutation } = agentApi;
+export const { useAgentCashInMutation, useAgentCashOutMutation, useGetAgentCommissionQuery } = agentApi;
