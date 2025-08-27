@@ -19,7 +19,7 @@ export const agentApi = baseApi.injectEndpoints({
         data: cashOutInfo,
       }),
 
-      invalidatesTags: ["WALLET"],
+      invalidatesTags: ["WALLET", "TRANSACTION", "AGENT_COMMISSION", ],
     }),
     getAgentCommission: builder.query({
       query: (params) => ({
