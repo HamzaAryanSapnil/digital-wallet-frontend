@@ -81,7 +81,7 @@ export function RegisterForm({
 
       toast.success("User created successfully");
       setLoading(false);
-      // navigate("/verify");
+      navigate("/");
     } catch (error) {
       setLoading(false);
       const err = error as { status: number; data: IErrorResponse };

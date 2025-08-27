@@ -1,5 +1,5 @@
 // components/OverviewSectionCards.tsx
-import React from "react";
+
 import {
   Card,
   CardHeader,
@@ -15,8 +15,6 @@ function fmtCurrency(v?: number) {
 }
 
 export function OverviewSectionCards({ data }: { data?: OverviewResult }) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const usersCount = data?.topCounterparties?.length ?? 0; // fallback; replace if you have totalUsers in API
   const txCount = data?.totals?.txCount ?? 0;
   const cashIn = data?.totals?.cashIn ?? 0;
   const cashOut = data?.totals?.cashOut ?? 0;
