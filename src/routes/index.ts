@@ -15,6 +15,10 @@ import { agentSidebarItems } from "./agentSidebarItems";
 import Unauthorized from "@/pages/Unauthorized";
 import { role } from '@/constants/role';
 import type { TRole } from '@/types';
+import Contact from '@/pages/Contact';
+import FAQPage from '@/pages/Faq';
+import FeaturesPage from '@/pages/Features';
+import ChangePassword from '@/pages/Profile/ChangePassword';
 
 export const router = createBrowserRouter([
   {
@@ -22,12 +26,24 @@ export const router = createBrowserRouter([
     Component: App,
     children: [
       {
-        path: "/",
+        index: true,
         Component: Home,
       },
       {
         path: "about",
         Component: About,
+      },
+      {
+        path: "contact",
+        Component: Contact,
+      },
+      {
+        path: "faq",
+        Component: FAQPage,
+      },
+      {
+        path: "features",
+        Component: FeaturesPage,
       },
     ],
   },
@@ -43,6 +59,10 @@ export const router = createBrowserRouter([
   {
     Component: Unauthorized,
     path: "/unauthorized",
+  },
+  {
+    Component: ChangePassword,
+    path: "/change-password",
   },
 
   {

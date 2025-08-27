@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
 import EditProfileModal from "@/components/EditProfileModal";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router";
 
 export default function Profile() {
   const { data } = useUserInfoQuery(undefined);
@@ -60,6 +62,7 @@ export default function Profile() {
               <p className="font-medium">Phone</p>
               <p>{user.phone || "N/A"}</p>
             </div>
+
             <div>
               <p className="font-medium">Created At</p>
               <p>{createdAt}</p>
@@ -67,6 +70,11 @@ export default function Profile() {
             <div>
               <p className="font-medium">Updated At</p>
               <p>{updatedAt}</p>
+            </div>
+            <div>
+              <Link to="/change-password">
+                <Button> Change Password </Button>
+              </Link>
             </div>
           </div>
         </CardContent>
